@@ -26,7 +26,7 @@ interface Options {
     n?: number;
     stop?: string | null;
     stream?: boolean;
-    clear_output?: boolean,
+    clear_output: boolean;
 }
 
 const defaultPromptTemplate: PromptTemplate = {
@@ -98,7 +98,7 @@ export default class LLMProvider implements Provider {
         const max_tokens = ext_config.get<number>('LLM.maxTokens') || 1024;
         const temperature = ext_config.get<number>('LLM.Temperature') || 1.0;
         const streamEnabled = ext_config.get<boolean>('stream') || false;
-        const clearOutput = ext_config.get<boolean>('LLM.clearOutput') || true;
+        const clearOutput = ext_config.get<boolean>('clearOutput') || false;
         if (max_tokens > 0) {
             this.options.max_tokens = max_tokens;
         }
