@@ -4,12 +4,13 @@ import { Readable } from 'stream';
 import { Provider } from './provider';
 import { RequestConfig } from '../http'
 import { ConfigurationError } from '../error';
-import { showOutputPanel, finishOutputPanel } from '../util';
+import {clearOutputPanel, showOutputPanel, finishOutputPanel } from '../util';
 
 export default class CozeProvider implements Provider {
     private botId: string;
     private token: string;
     private streamEnabled: boolean;
+    private clearOutput: boolean;
     private onDataCallback: (chunk: string) => void;  // 回调函数
 
     constructor(botId: string, token: string) {
@@ -23,10 +24,12 @@ export default class CozeProvider implements Provider {
         // 流式输出
         const ext_config = vscode.workspace.getConfiguration('ai-translate');
         const streamEnabled = ext_config.get<boolean>('stream') || false;
+        const clearOutput = ext_config.get<boolean>('LLM.clearOutput') || true;
 
         this.botId = botId;
         this.token = token;
         this.streamEnabled = streamEnabled;
+        this.clearOutput = clearOutput;
         this.onDataCallback = showOutputPanel;
     }
 
@@ -65,6 +68,7 @@ export default class CozeProvider implements Provider {
                 return new Promise((resolve, reject) => {
                     const stream = response.data as Readable;
 
+                    clearOutputPanel(this.clearOutput);
                     let bufferText = "";
                     stream.on('data', (chunk: Buffer) => {
                         const chunkStr = chunk.toString();
@@ -146,6 +150,7 @@ export default class CozeProvider implements Provider {
                         // 1. 检查bot会话状态状态 https://www.coze.cn/docs/developer_guides/get_chat_response
                         await this.check_session_status(response.data.data.conversation_id, response.data.data.id)
                         // 2. 获取最后一次bot响应
+                        clearOutputPanel(this.clearOutput);
                         let content = await this.fetch_llm_response(response.data.data.conversation_id, response.data.data.id)
                         this.onDataCallback(content);
                         finishOutputPanel();

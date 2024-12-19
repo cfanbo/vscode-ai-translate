@@ -2,6 +2,11 @@ import * as vscode from 'vscode';
 
 let outputChannel: vscode.OutputChannel | undefined;
 
+export function clearOutputPanel(clear: boolean) {
+    if (outputChannel && clear) {
+        outputChannel.clear();
+    }
+}
 export function showOutputPanel(message: string) {
     // 如果 outputChannel 未初始化，则创建一个新的实例
     if (!outputChannel) {

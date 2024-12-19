@@ -2,7 +2,7 @@
   "name": "ai-translate",
   "displayName": "AI Translate",
   "description": "Translate the text content into other languages, leveraging LLM (Large Language Model) technology. support AI Agent",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "publisher": "cfanbo",
   "icon": "img/logo.png",
   "repository": {
@@ -220,6 +220,12 @@
           "default": true,
           "description": "启用流式输出",
           "order": 3
+        },
+        "ai-translate.clearOutput": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically clear the output console before translate",
+          "order": 4
         },
         "ai-translate.LLM.ServiceProvider": {
           "enum": [

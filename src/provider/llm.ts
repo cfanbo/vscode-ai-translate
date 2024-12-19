@@ -1,10 +1,8 @@
 import * as vscode from 'vscode';
-import axios from 'axios';
-import internal, { Readable } from 'stream';
 import { Provider } from './provider';
 import { RequestConfig } from '../http'
 import { ConfigurationError } from '../error';
-import { showOutputPanel, finishOutputPanel } from '../util';
+import { clearOutputPanel, showOutputPanel, finishOutputPanel } from '../util';
 import { OpenAI } from "openai";
 import { Anthropic } from "@anthropic-ai/sdk";
 import DeepL from './deepl';
@@ -28,6 +26,7 @@ interface Options {
     n?: number;
     stop?: string | null;
     stream?: boolean;
+    clear_output?: boolean,
 }
 
 const defaultPromptTemplate: PromptTemplate = {
@@ -48,6 +47,8 @@ const defaultOptions: Options = {
     top_p: 1,
     n: 1,
     stream: false,
+
+    clear_output: true,
 };
 
 export default class LLMProvider implements Provider {
@@ -97,11 +98,14 @@ export default class LLMProvider implements Provider {
         const max_tokens = ext_config.get<number>('LLM.maxTokens') || 1024;
         const temperature = ext_config.get<number>('LLM.Temperature') || 1.0;
         const streamEnabled = ext_config.get<boolean>('stream') || false;
+        const clearOutput = ext_config.get<boolean>('LLM.clearOutput') || true;
         if (max_tokens > 0) {
             this.options.max_tokens = max_tokens;
         }
         this.options.temperature = temperature;
         this.options.stream = streamEnabled;
+
+        this.options.clear_output = clearOutput;
 
         // render callback
         this.onDataCallback = showOutputPanel;
@@ -147,6 +151,7 @@ export default class LLMProvider implements Provider {
                 });
 
                 let fullResponse = '';
+                clearOutputPanel(this.options.clear_output);
                 for await (const chunk of stream) {
                     const content = chunk.choices[0]?.delta?.content || '';
                     this.onDataCallback(content);  // 调用回调函数
@@ -164,6 +169,7 @@ export default class LLMProvider implements Provider {
                     stream: this.options.stream,
                 });
 
+                clearOutputPanel(this.options.clear_output);
                 const resultStr = response.choices[0].message.content?.trim() || '';
                 this.onDataCallback(resultStr);
                 finishOutputPanel();

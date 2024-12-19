@@ -4,12 +4,13 @@ import { Readable } from 'stream';
 import { Provider } from './provider';
 import { RequestConfig } from '../http';
 import { ConfigurationError } from '../error';
-import { showOutputPanel, finishOutputPanel } from '../util';
+import {clearOutputPanel, showOutputPanel, finishOutputPanel } from '../util';
 
 export default class BailianProvider implements Provider {
     private APP_ID: string;
     private API_KEY: string;
     private streamEnabled: boolean;
+    private clearOutput: boolean;
     private onDataCallback: (chunk: string) => void;  // 回调函数
 
     constructor(appId: string, apiKey: string) {
@@ -23,10 +24,12 @@ export default class BailianProvider implements Provider {
         // 流式输出
         const ext_config = vscode.workspace.getConfiguration('ai-translate');
         const streamEnabled = ext_config.get<boolean>('stream') || false;
+        const clearOutput = ext_config.get<boolean>('LLM.clearOutput') || true;
 
         this.APP_ID = appId;
         this.API_KEY = apiKey;
         this.streamEnabled = streamEnabled;
+        this.clearOutput = clearOutput;
         this.onDataCallback = showOutputPanel;
     }
 
@@ -63,6 +66,7 @@ export default class BailianProvider implements Provider {
                 return new Promise((resolve, reject) => {
                     const stream = response.data as Readable;
 
+                    clearOutputPanel(this.clearOutput);
                     stream.on('data', (chunk: Buffer) => {
                         const chunkStr = chunk.toString();
                         // console.log('Received chunk:', chunkStr);
@@ -91,6 +95,7 @@ export default class BailianProvider implements Provider {
                     });
                 });
             } else {
+                clearOutputPanel(this.clearOutput);
                 this.onDataCallback(response.data.output.text)
                 finishOutputPanel();
                 return { text: response.data.output.text };

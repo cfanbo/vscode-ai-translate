@@ -1,8 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { sendHttpRequest } from './http'; // 假设 httpService.ts 在同一目录下
-import { showOutputPanel } from './util';
+import { sendHttpRequest } from './http';
 import { ConfigurationError } from './error';
 
 var Loading = false;
