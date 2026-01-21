@@ -2,7 +2,7 @@
   "name": "ai-translate",
   "displayName": "AI Translate",
   "description": "Translate the text content into other languages, leveraging LLM (Large Language Model) technology. support AI Agent",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "cfanbo",
   "icon": "img/logo.png",
   "repository": {
@@ -59,23 +59,7 @@
     "configuration": {
       "title": "AI Translate",
       "properties": {
-        "ai-translate.provider": {
-          "type": "string",
-          "enum": [
-            "LLM",
-            "bailian",
-            "coze"
-          ],
-          "enumDescriptions": [
-            "Large Languages Model",
-            "阿里云百炼 AI Agent",
-            "字节跳动-扣子 AI Agent"
-          ],
-          "default": "LLM",
-          "description": "服务提供商",
-          "order": 0
-        },
-        "ai-translate.LLM.targetLanguage": {
+        "ai-translate.targetLanguage": {
           "enum": [
             "Simplified Chinese",
             "Traditional Chinese",
@@ -212,7 +196,6 @@
           ],
           "default": "Simplified Chinese",
           "description": "Translate into the language you wish the content to be translated into",
-          "when": "ai-translate.provider == 'LLM'",
           "order": 2
         },
         "ai-translate.stream": {
@@ -227,7 +210,7 @@
           "description": "Automatically clear the output console before translate",
           "order": 4
         },
-        "ai-translate.LLM.ServiceProvider": {
+        "ai-translate.ServiceProvider": {
           "enum": [
             "OpenAI",
             "Anthropic",
@@ -252,81 +235,46 @@
           ],
           "default": "OpenAI",
           "description": "Translate Service Provider",
-          "when": "ai-translate.provider == 'LLM'",
           "order": 10
         },
-        "ai-translate.LLM.baseUrl": {
+        "ai-translate.baseUrl": {
           "type": "string",
           "default": "",
           "markdownDescription": "AI Service Base URL",
-          "when": "ai-translate.LLM.ServiceProvider == 'LLM'",
           "order": 11
         },
-        "ai-translate.LLM.apiKey": {
+        "ai-translate.apiKey": {
           "type": "string",
           "default": "",
           "markdownDescription": "AI Service API Key",
-          "when": "ai-translate.LLM.ServiceProvider == 'LLM'",
           "order": 12
         },
-        "ai-translate.LLM.model": {
+        "ai-translate.model": {
           "type": "string",
           "default": "deepseek-chat",
           "markdownDescription": "Language Model, You can change the model",
-          "when": "ai-translate.LLM.ServiceProvider == 'LLM'",
           "order": 13
         },
-        "ai-translate.LLM.prompt": {
+        "ai-translate.prompt": {
           "type": "string",
           "default": "Translate the following source text to {{to}}, Output translation directly without any additional text. \nSource Text: {{text}} \nTranslated Text:",
           "markdownDescription": "{{to}} represents the target language, and {{text}} represents the text content of the paragraph",
-          "when": "ai-translate.LLM.ServiceProvider == 'LLM'",
           "editPresentation": "multilineText",
           "order": 14
         },
-        "ai-translate.LLM.maxTokens": {
+        "ai-translate.maxTokens": {
           "type": "number",
           "default": 1024,
           "markdownDescription": "生成文本的最大长度, 介绍文档 [max_tokens](https://platform.openai.com/docs/api-reference/completions/create#completions-create-max_tokens)",
-          "when": "ai-translate.LLM.ServiceProvider == 'LLM'",
           "order": 15
         },
-        "ai-translate.LLM.Temperature": {
+        "ai-translate.Temperature": {
           "type": "number",
           "default": 1,
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "控制生成文本的随机性. 值越大文本越随机, 推荐设置为1.  介绍文档 [temperature](https://platform.openai.com/docs/api-reference/completions/create#completions-create-temperature)",
-          "when": "ai-translate.LLM.ServiceProvider == 'LLM'",
           "order": 16
-        },
-        "ai-translate.coze.botId": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "打开 https://www.coze.cn/home, 点击左侧“个人空间”菜单, 进入 Bot 的开发页面, 地址栏 URL 中 bot 参数后的数字就是 Bot ID",
-          "when": "ai-translate.provider == 'coze'",
-          "order": 20
-        },
-        "ai-translate.coze.token": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "点击 https://www.coze.cn/open/api 生成令牌",
-          "when": "ai-translate.provider == 'coze'",
-          "order": 21
-        },
-        "ai-translate.bailian.APP_ID": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "阿里云百炼-应用ID, 点击 https://bailian.console.aliyun.com/#/app-center 获取ID",
-          "when": "ai-translate.provider == 'bailian'",
-          "order": 30
-        },
-        "ai-translate.bailian.API_KEY": {
-          "type": "string",
-          "default": "sk-xxx",
-          "markdownDescription": "以 `sk-` 为前缀的字符串, 点击 https://bailian.console.aliyun.com/?apiKey=1#/api-key 查看",
-          "when": "ai-translate.provider == 'bailian'",
-          "order": 31
         }
       }
     }

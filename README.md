@@ -32,9 +32,6 @@ AI翻译效果
 在这种情况下，我们直接向客户端返回错误，以便客户端可以切换到另一个成员继续租约续期操作。
 ```
 
-> 基于AI的翻译效果要比传统翻译软件更加精准和专业，特别是我们可以对AI应用做一些自定义功能，如这里会自动过滤掉注释符，并整理形成新的段落语句，然后再翻译成中文。
->
-> 除此之外，通义千问应用还支持更多的定制化功能，如插件调用这里只是用到了一小部分而已。
 
 ## Requirements
 
@@ -44,13 +41,12 @@ AI翻译效果
 - Anthropic
 - DeepL
 - 智谱 GLM
-- 豆包大模型（字节跳动）
+- 豆包
 - DeepSeek
 - Alibaba
 - GitHub
 - Gemini
-- [阿里云百炼-智能体](./docs/bailian.md) 获取 `APP_ID` 和 `APP_KEY`
-- [扣子coze-智能体](./docs/coze.md) 获取 `BotID` 和 `token`
+
 
 ## install Extension
 
@@ -60,26 +56,22 @@ AI翻译效果
 
 在 vscode 里需要对  `ai-translate` 进行配置，分别填写到对应的地址
 
-![alt text](./img/image.jpg)
+![alt text](./img/image.png)
 
 如果选择了其中一个服务提供商，则必须填写对应的配置，否则无法实现翻译功能。未选择的服务商配置可以保留为空。
 
 ## Usage Guide
 常见的两种使用方法：
 
-方法一：鼠标选择要翻译的注释段落，右链选择菜单`AI 翻译`即可
-方法二：使用快捷键
+## 方法一: 右链菜单
+鼠标选择要翻译的注释段落，右链选择菜单`AI 翻译`即可
+## 方法二：使用快捷键
 - "MacOS": `command+alt+t`
 - "Linux": `ctrl+alt+t`
 - "Windows": `ctrl+alt+t`
 
-## Other
-### 智能体
-如何选择了 `阿里云百炼` 或 `扣子coze` 智能体服务商，则插件要做的只有一件事，就是将用户选择的内容发送到 LLM, 然后LLM根据用户设置的`prompt`进行响应，并在客户端将响应结果输出。因此用户可以对`prompt`做一切想做的工作，如利用AI给出一些推荐变量命名，同时还可以开启`插件`功能查看天气预报、查询公交地铁信息等。
-
-如果选择的是其它 Provider, 则只做翻译一项功能。
 
 ## 反馈意见
-如果你在使用插件的过程中遇到任何问题，或发现插件BUG, 或更好的建议，请 [提交反馈](https://github.com/cfanbo/vscode-ai-translate/pulls) 给我们。
+如果你在使用插件的过程中遇到任何问题，或发现插件BUG, 或更好的建议，请 [提交反馈](https://github.com/cfanbo/vscode-ai-translate/issues) 给我们。
 
 **Enjoy!**
