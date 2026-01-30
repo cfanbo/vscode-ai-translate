@@ -98,22 +98,22 @@ const serviceProvidersConfig: { [key: string]: ServiceProviderItem } = {
 function updateModels() {
 	// 获取所有配置属性
 	const currentConfig = vscode.workspace.getConfiguration();
-	let selectedProviderName = currentConfig.get<string>('ai-translate.LLM.ServiceProvider') || "";
+	let selectedProviderName = currentConfig.get<string>('ai-translate.ServiceProvider') || "";
 	selectedProviderName = selectedProviderName.toLowerCase()
 	console.log("selectedProviderName:", selectedProviderName)
 
 	const selectedProvider = serviceProvidersConfig[selectedProviderName];
 	console.log("selectedProvider: ", selectedProvider);
 	if (selectedProvider) {
-		currentConfig.update('ai-translate.LLM.model', '', vscode.ConfigurationTarget.Global);
-		vscode.workspace.getConfiguration().update('ai-translate.LLM.baseUrl', selectedProvider.baseurl, vscode.ConfigurationTarget.Global);
+		currentConfig.update('ai-translate.model', '', vscode.ConfigurationTarget.Global);
+		vscode.workspace.getConfiguration().update('ai-translate.baseUrl', selectedProvider.baseurl, vscode.ConfigurationTarget.Global);
 
 		updateModelDropdown(selectedProvider);
 	}
 }
 
 function updateModelDropdown(provider: ServiceProviderItem) {
-	const modelConfigKey = 'ai-translate.LLM.model';
+	const modelConfigKey = 'ai-translate.model';
 	const models = provider.models
 	const currentModel = vscode.workspace.getConfiguration().get(modelConfigKey);
 
@@ -142,7 +142,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// const config = vscode.workspace.getConfiguration();
 	context.subscriptions.push(
 		vscode.workspace.onDidChangeConfiguration(e => {
-			if (e.affectsConfiguration('ai-translate.LLM.ServiceProvider')) {
+			if (e.affectsConfiguration('ai-translate.ServiceProvider')) {
 				updateModels();
 			}
 		})
@@ -150,7 +150,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "ai-translate" is now active!');
+	console.log('Congratulations, your extension "AI-Translate" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand

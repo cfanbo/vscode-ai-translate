@@ -65,10 +65,10 @@ export default class LLMProvider implements Provider {
         const ext_config = vscode.workspace.getConfiguration('ai-translate');
 
         this.providerConfig = {
-            provider: ext_config.get<string>('LLM.ServiceProvider') || "",
-            baseUrl: ext_config.get<string>('LLM.baseUrl') || "",
-            apiKey: ext_config.get<string>('LLM.apiKey') || "",
-            model: ext_config.get<string>('LLM.model') || "",
+            provider: ext_config.get<string>('ServiceProvider') || "",
+            baseUrl: ext_config.get<string>('baseUrl') || "",
+            apiKey: ext_config.get<string>('apiKey') || "",
+            model: ext_config.get<string>('model') || "",
         }
 
         if (!this.providerConfig.baseUrl) {
