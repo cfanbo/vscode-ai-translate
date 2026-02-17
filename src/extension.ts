@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { sendHttpRequest } from './http';
 import { ConfigurationError } from './error';
+import LLMProvider from './provider/llm';
 
 var Loading = false;
 
@@ -144,6 +145,9 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.workspace.onDidChangeConfiguration(e => {
 			if (e.affectsConfiguration('ai-translate.ServiceProvider')) {
 				updateModels();
+			}
+			if (e.affectsConfiguration('ai-translate')) {
+				LLMProvider.resetInstance();
 			}
 		})
 	);

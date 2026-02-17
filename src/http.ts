@@ -11,7 +11,7 @@ export interface RequestConfig {
  */
 export async function sendHttpRequest(config: RequestConfig): Promise<any> {
     try {
-        const provider = new LLMProvider();
+        const provider = LLMProvider.getInstance();
         const response = await provider.sendRequest(config);
         return response;
     } catch (error) {

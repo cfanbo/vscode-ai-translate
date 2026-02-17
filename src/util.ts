@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
 let outputChannel: vscode.OutputChannel | undefined;
+let logChannel: vscode.OutputChannel | undefined;
 
 export function clearOutputPanel(clear: boolean) {
     if (outputChannel && clear) {
@@ -19,4 +20,13 @@ export function showOutputPanel(message: string) {
 
 export function finishOutputPanel() {
     showOutputPanel("\r\n\r\n");
+}
+
+export function logDebug(message: string) {
+    if (!logChannel) {
+        logChannel = vscode.window.createOutputChannel('ai-translate Debug');
+    }
+    logChannel.show();
+    logChannel.appendLine(message);
+    console.log(message);
 }

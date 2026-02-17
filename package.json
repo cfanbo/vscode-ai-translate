@@ -275,6 +275,14 @@
           "maximum": 2,
           "markdownDescription": "控制生成文本的随机性. 值越大文本越随机, 推荐设置为1.  介绍文档 [temperature](https://platform.openai.com/docs/api-reference/completions/create#completions-create-temperature)",
           "order": 16
+        },
+        "ai-translate.maxContextTokens": {
+          "type": "number",
+          "default": 4000,
+          "minimum": 1000,
+          "maximum": 128000,
+          "markdownDescription": "上下文最大token数。当历史对话累积的token数超过此值时，将自动开始新对话，仅保留系统提示语。建议根据模型上下文窗口设置：gpt-3.5: 4000, gpt-4: 8000, claude: 100000+。降低此值可减少token消耗，但可能影响翻译一致性。",
+          "order": 17
         }
       }
     }
